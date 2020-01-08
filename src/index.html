@@ -10,18 +10,36 @@
 
   <body>
     <div id="app">
-      <div class="holder headline">
-        Weather Journal App
-      </div>
-      <div class="holder zip">
-        <label for="zip">Enter Zipcode here</label>
-        <input type="text" id="zip" placeholder="enter zip code here">
-      </div>
-      <div class="holder feel">
-        <label for="feelings">How are you feeling today?</label>
-        <textarea class="myInput" id="feelings" placeholder="Enter your feelings here" rows="9" cols="50"></textarea>
-        <button id="generate" type="submit"> Generate </button>
-      </div>
+      <section id="hero">
+        <div class="container">
+          <h1 class="hero-title">Weather Journal App</h1>
+          <div class="hero-subtitle">Enter some notes about how you're feeling today, and we'll gather data so you can
+            understand how weather influences your mood!</div>
+        </div>
+      </section>
+      <section id="main">
+        <div class="container">
+          <div class="add-entry">
+            <h1 class="title">Add Entry</h1>
+            <div class="row">
+              <div class="col col-6">
+                <label for="zip">What is your name?</label>
+                <input type="text" id="zip" placeholder="Zip code">
+              </div>
+              <div class="col col-6">
+                <label for="zip">What is your zipcode?</label>
+                <input type="text" id="zip" placeholder="Name">
+              </div>
+              <div class="col">
+                <label for="feelings">How are you feeling today?</label>
+                <textarea class="myInput" id="feelings" placeholder="Enter your feelings here" rows="9"
+                          cols="50"></textarea>
+              </div>
+              <button id="submit" type="submit">Add Entry</button>
+            </div>
+          </div>
+        </div>
+      </section>
       <div class="holder entry">
         <div class="title">Most Recent Entry</div>
         <div id="entryHolder">
