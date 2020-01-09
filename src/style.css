@@ -64,7 +64,7 @@ body {
 .add-entry {
   width: 100%;
   max-width: 620px;
-  background: rgba(255, 255, 255, 0.644);
+  background: white;
   width: 100%;
   border-radius: 12px;
   padding: 36px;
@@ -75,8 +75,7 @@ body {
 .title {
   font-family: 'Oswald', sans-serif;
   margin-top: 0;
-  color: white;
-  text-shadow: 1px 1px black;
+  color: black;
   width: 100%;
   text-align: center;
 }
