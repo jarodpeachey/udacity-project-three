@@ -1,13 +1,11 @@
 // Dependencies
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 // Empty data object
 projectData = {
-  entries: [
-
-  ],
+  entries: [],
 };
 
 // Start up an instance of app
@@ -31,19 +29,35 @@ const server = app.listen(port, () => {
 
 // Set up HTTP request routes
 app.get('/data', sendData);
-app.post('/data', postData);
+app.post('/add', postData);
 
 // Set up functions for HTTP requests
-function sendData (request, response) {
+function sendData(request, response) {
   response.send(projectData);
 }
 
-function postData (request, response) {
-  const newObject = {
-    ...request.body,
-    id: projectData.entries[projectData.entries.length - 1].id + 1 || 1,
+function postData(request, response) {
+  // const newObject = {
+  //   ...request.body,
+  //   id: projectData.entries.length > 0 ? projectData.entries[projectData.entries.length - 1].id + 1 : 1,
+  // };
+  newEntry = {
+    date: request.body.date,
+    zip: request.body.zip,
+    feeling: request.body.feelings,
+    temp: ((request.body.temp - 273.15) * (9 / 5) + 32).toFixed(), // Convert to F°
+    name: request.body.name,
+    id:
+      projectData.entries.length > 0
+        ? projectData.entries[projectData.entries.length - 1].id + 1
+        : 1,
   };
 
-  projectData.entries.push(newObject);
-  response.send('POST recieved');
+  entries = [...projectData.entries, newEntry];
+
+  projectData = {
+    entries: entries,
+  };
+
+  response.send(projectData);
 }
