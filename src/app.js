@@ -6,6 +6,12 @@ let feelingsElement = document.getElementById('feelings');
 let entrySection = document.getElementById('entry-section');
 let entriesElement = document.getElementById('entries');
 
+// API Key
+const apiKey = '8e5ccdb71fc19dc417aad096b7f8d68c';
+
+// Request URL
+const weatherURL = 'https://api.openweathermap.org/data/2.5/weather';
+
 // Event Listener
 addEntryButton.addEventListener('click', addEntry);
 
@@ -19,7 +25,7 @@ async function addEntry(e) {
   ) {
     alert('Please fill in all the fields.');
   } else {
-    getWeatherData(zipElement.value, '8e5ccdb71fc19dc417aad096b7f8d68c');
+    getWeatherData(zipElement.value, apiKey);
   }
 }
 
@@ -29,23 +35,29 @@ let newDate = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
 
 async function getWeatherData(zipCode, apiKey) {
   const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode}&APPID=${apiKey}`,
+    `${weatherURL}?zip=${zipCode}&APPID=${apiKey}`,
   );
 
   try {
     const allData = await response.json();
 
-    const newData = {
-      date: newDate,
-      temp: allData.main.temp,
-      zip: zipElement.value,
-      feelings: feelingsElement.value,
-      name: nameElement.value,
-    };
+    if (allData.cod == "404") {
+      alert(allData.message);
+    } else {
+      const newData = {
+        date: newDate,
+        temp: allData.main.temp,
+        zip: zipElement.value,
+        feelings: feelingsElement.value,
+        name: nameElement.value,
+      };
 
-    const postResult = await postData('/add', newData);
+      const postResult = await postData('/add', newData);
 
-    displayResults(postResult);
+      const getResult = await getData('/data');
+
+      displayResults(getResult);      
+    }
   } catch (error) {
     console.log(error);
   }
@@ -58,6 +70,19 @@ async function postData(url, data) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
+  });
+
+  let responseData = await result.json();
+
+  return responseData;
+}
+
+async function getData(url) {
+  let result = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 
   let responseData = await result.json();

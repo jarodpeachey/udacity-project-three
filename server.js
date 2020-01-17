@@ -37,10 +37,6 @@ function sendData(request, response) {
 }
 
 function postData(request, response) {
-  // const newObject = {
-  //   ...request.body,
-  //   id: projectData.entries.length > 0 ? projectData.entries[projectData.entries.length - 1].id + 1 : 1,
-  // };
   newEntry = {
     date: request.body.date,
     zip: request.body.zip,
