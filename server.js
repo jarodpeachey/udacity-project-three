@@ -49,10 +49,11 @@ function postData(request, response) {
         : 1,
   };
 
-  entries = [...projectData.entries, newEntry];
-
   projectData = {
-    entries: entries,
+    entries: [
+      ...projectData.entries,
+      newEntry,
+    ],
   };
 
   response.send(projectData);

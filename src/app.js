@@ -34,14 +34,12 @@ let d = new Date();
 let newDate = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
 
 async function getWeatherData(zipCode, apiKey) {
-  const response = await fetch(
-    `${weatherURL}?zip=${zipCode}&APPID=${apiKey}`,
-  );
+  const response = await fetch(`${weatherURL}?zip=${zipCode}&APPID=${apiKey}`);
 
   try {
     const allData = await response.json();
 
-    if (allData.cod == "404") {
+    if (allData.cod == '404') {
       alert(allData.message);
     } else {
       const newData = {
@@ -56,7 +54,7 @@ async function getWeatherData(zipCode, apiKey) {
 
       const getResult = await getData('/data');
 
-      displayResults(getResult);      
+      displayResults(getResult);
     }
   } catch (error) {
     console.log(error);
@@ -92,44 +90,39 @@ async function getData(url) {
 
 function displayResults(data) {
   const entries = data.entries;
+  const { name, date, feeling, zip, temp } = entries[entries.length - 1];
 
-  for (index in entries) {
-    if (index < 3) {
-      const { name, date, feeling, zip, temp } = entries[index];
+  const wrapper = document.createElement('div');
+  const flex = document.createElement('div');
+  const textWrapper = document.createElement('div');
+  const nameElement = document.createElement('em');
+  const dateElement = document.createElement('span');
+  const tempElement = document.createElement('div');
+  const tempIndicator = document.createElement('span');
+  const feelingsElement = document.createElement('p');
 
-      const wrapper = document.createElement('div');
-      const flex = document.createElement('div');
-      const textWrapper = document.createElement('div');
-      const nameElement = document.createElement('em');
-      const dateElement = document.createElement('span');
-      const tempElement = document.createElement('div');
-      const tempIndicator = document.createElement('span');
-      const feelingsElement = document.createElement('p');
+  wrapper.classList.add('entry-card');
+  flex.classList.add('entry-flex');
+  nameElement.classList.add('entry-name');
+  dateElement.classList.add('entry-date');
+  tempElement.classList.add('entry-temp');
+  tempIndicator.classList.add('entry-temp-indicator');
+  textWrapper.classList.add('entry-feelings');
 
-      wrapper.classList.add('entry-card');
-      flex.classList.add('entry-flex');
-      nameElement.classList.add('entry-name');
-      dateElement.classList.add('entry-date');
-      tempElement.classList.add('entry-temp');
-      tempIndicator.classList.add('entry-temp-indicator');
-      textWrapper.classList.add('entry-feelings');
+  nameElement.innerText = `- ${name}`;
+  dateElement.innerText = date;
+  feelingsElement.innerText = feeling;
+  tempIndicator.innerText = '(F)';
+  tempElement.innerText = `${temp}°`;
+  tempElement.appendChild(tempIndicator);
 
-      nameElement.innerText = `- ${name}`;
-      dateElement.innerText = date;
-      feelingsElement.innerText = feeling;
-      tempIndicator.innerText = '(F)';
-      tempElement.innerText = `${temp}°`;
-      tempElement.appendChild(tempIndicator);
+  flex.appendChild(tempElement);
+  flex.appendChild(dateElement);
+  textWrapper.appendChild(feelingsElement);
+  textWrapper.appendChild(nameElement);
+  wrapper.appendChild(flex);
+  wrapper.appendChild(textWrapper);
 
-      flex.appendChild(tempElement);
-      flex.appendChild(dateElement);
-      textWrapper.appendChild(feelingsElement);
-      textWrapper.appendChild(nameElement);
-      wrapper.appendChild(flex);
-      wrapper.appendChild(textWrapper);
-
-      entriesElement.appendChild(wrapper);
-      entrySection.style.display = 'block';
-    }
-  }
+  entriesElement.appendChild(wrapper);
+  entrySection.style.display = 'block';
 }
